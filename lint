@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+
+set -e
+
+YAPF_ARGS=""
+if [[ $1 == "--fix" ]];then
+    YAPS_ARGS="-r"
+fi
+
+if [ -f ".eslintrc" ]; then
+    yarn lint $1
+fi
+
+if [ -f ".yapfignore" ]; then
+    yapf . -i $YAPF_ARGS
+fi

@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+NODE_ROOT=node_modules/@unrest/
+NODE_DIRS=`ls $NODE_ROOT`
+
+for i in $NODE_DIRS;
+do
+    echo $NODE_ROOT$i
+done
+
+test -d unrest && echo unrest

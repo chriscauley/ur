@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+PROJECT_NAME=$1
+FILE=/tmp/$PROJECT_NAME.pid
+# reset server
+if kill -HUP `cat $FILE`; then
+    echo rebooted via hup
+else
+    echo server was not running but it is now
+    tmux new-session -s $PROJECT_NAME -d 'source .venv/bin/activate; uwsgi --ini server/uwsgi.ini; bash -i'
+fi
