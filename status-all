@@ -3,11 +3,21 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 _PWD=`pwd`
 
+function _status {
+    S1=`git status --porcelain`
+    S2=`git status | grep 'Your branch is ahead of'`
+    if [[ -n "$S1$S2" ]]; then
+        echo --- ${1-ROOT} ----
+        echo -e "$S1"
+        echo -e "$S2"
+    fi
+}
+
+_status
+
 for GIT_DIR in `$DIR/git-dirs`
 do
     cd $GIT_DIR
-    echo  --- $GIT_DIR ---
-    git status --porcelain
-    git status | grep "Your branch is ahead of"
+    _status $GIT_DIR
     cd $_PWD
 done

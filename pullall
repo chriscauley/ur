@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 
-_PWD=`PWD`
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+_PWD=`pwd`
 
-for dir in `./git-dirs`
+for dir in `$DIR/git-dirs`
 do
     cd $dir
-    echo $dir
-    echo `pwd`
-    cd _PWD
+    git pull
+    cd $_PWD
 done

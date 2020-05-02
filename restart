@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
+PROJECT_NAME=${PWD##*/}
 
-PROJECT_NAME=$1
-FILE=/tmp/$PROJECT_NAME.pid
+FILE="/tmp/$PROJECT_NAME.pid"
 # reset server
-if kill -HUP `cat $FILE`; then
+if kill -HUP `cat $FILE 2>/dev/null`; then
     echo rebooted via hup
 else
     echo server was not running but it is now

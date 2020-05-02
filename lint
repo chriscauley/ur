@@ -2,9 +2,9 @@
 
 set -e
 
-YAPF_ARGS=""
+YAPF_ARGS="-d"
 if [[ $1 == "--fix" ]];then
-    YAPS_ARGS="-r"
+    YAPS_ARGS="-i"
 fi
 
 if [ -f ".eslintrc" ]; then
@@ -12,5 +12,6 @@ if [ -f ".eslintrc" ]; then
 fi
 
 if [ -f ".yapfignore" ]; then
-    yapf . -i $YAPF_ARGS
+    source .venv/bin/activate
+    yapf . -r $YAPF_ARGS
 fi
