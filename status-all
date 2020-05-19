@@ -4,12 +4,26 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 _PWD=`pwd`
 
 function _status {
+    PKG=${1-ROOT}
+    echo $PKG
+    if [ ! -f package.json ];then
+        echo $PKG has no package.json, skipping
+        return
+    fi
+    if [[ ! -d ".git" ]];then
+        echo $PKG has no git directory, probably not a symlink... skipping
+        return
+    fi
     S1=`git status --porcelain`
     S2=`git status | grep 'Your branch is ahead of'`
-    if [[ -n "$S1$S2" ]]; then
-        echo --- ${1-ROOT} ----
-        echo -e "$S1"
-        echo -e "$S2"
+    NPM_VERSION=`node -e "console.log(require('./package.json').version)"`
+    VERSION_COMMIT=`git lg | grep $NPM_VERSION`
+    test -z "$VERSION_COMMIT" && S3="$PKG needs to be published"
+    if [[ -n "$S1$S2$3" ]]; then
+        echo --- $PKG ----
+        test "$S1" && echo -e "$S1"
+        test "$S2" && echo -e "$S2"
+        test "$S3" && echo -e "$S3"
     fi
 }
 

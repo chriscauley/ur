@@ -4,7 +4,7 @@ set -e
 
 YAPF_ARGS="-d"
 if [[ $1 == "--fix" ]];then
-    YAPS_ARGS="-i"
+    YAPF_ARGS="-i"
 fi
 
 if [ -f ".eslintrc" ]; then
