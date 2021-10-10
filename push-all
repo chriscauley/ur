@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+_PWD=`pwd`
+
+for GIT_DIR in `$DIR/git-dirs`
+do
+    cd $GIT_DIR
+    git push
+    cd $_PWD
+done
