@@ -7,5 +7,6 @@ if kill -HUP `cat $FILE 2>/dev/null`; then
     echo rebooted via hup
 else
     echo server was not running but it is now
-    tmux new-session -s $PROJECT_NAME -d 'source .venv/bin/activate; uwsgi --ini server/uwsgi.ini; bash -i'
+    tmux kill-session -t $PROJECT_NAME
+    tmux new -s $PROJECT_NAME -d 'source .venv/bin/activate; uwsgi --ini server/uwsgi.ini; bash -i'
 fi
