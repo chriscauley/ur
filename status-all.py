@@ -15,6 +15,8 @@ with open('package.json') as f:
   text = f.read()
   package = json.loads(text)
 
+needs_update = []
+
 for package_name, v_now in package['dependencies'].items():
   if not package_name.startswith('@unrest'):
     continue
@@ -23,6 +25,7 @@ for package_name, v_now in package['dependencies'].items():
     v_new = json.loads(f.read())['version']
   if v_now != v_new:
     print(f'{package_name} is behind: {v_now} vs {v_new}')
+    needs_update.append(f'{package_name}@{v_new}')
 
   os.chdir(os.path.join(HOME, 'projects', package_name))
   stdout = run(['git', 'log', '--pretty=format:"%h: %s"', '-10'])
@@ -37,3 +40,7 @@ for package_name, v_now in package['dependencies'].items():
   if stdout:
     print(f'{package_name} has uncommitted code')
     print(stdout)
+
+if neesds_update:
+  print("Run the following to update local packages:")
+  print(f'yarn add {" ".join(needs_update)}')
